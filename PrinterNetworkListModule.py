@@ -25,8 +25,12 @@ def save_printer_list_to_file(printer_list, filename):
 # Saving data and sending to API.
 @app.route('/api/get_printer_list', methods=['GET'])
 def get_printer_list():
-    save_printer_list_to_file(printer_list, 'printer_list.txt')
-    return send_file('printer_list.txt', as_attachment=True)
+    printer_data = [
+        {"id": printer.printerID, "name": printer.printerName, "distance": 0, "time": 0}
+        for printer in printer_list
+    ]
+    return jsonify({"printers": printer_data})
+
 
 # Run the app if this is the main module
 if __name__ == '__main__':
