@@ -17,10 +17,10 @@ printer_list = [
 # Creating Flask app.
 app = Flask(__name__)
 
-def save_printer_list_to_file(printer_list, filename):
-    with open(filename, 'w') as file:
-        for printer in printer_list:
-            file.write(f"{printer.printerName},{printer.printerLatitude},{printer.printerLongitude},{printer.printerIPAddress},{printer.printerID}\n")
+## def save_printer_list_to_file(printer_list, filename):
+##     with open(filename, 'w') as file:
+##         for printer in printer_list:
+##             file.write(f"{printer.printerName},{printer.printerLatitude},{printer.printerLongitude},{printer.printerIPAddress},{printer.printerID}\n")
 
 # Saving data and sending to API.
 @app.route('/api/get_printer_list', methods=['GET'])
