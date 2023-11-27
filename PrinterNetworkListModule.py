@@ -23,10 +23,14 @@ app = Flask(__name__)
 ##             file.write(f"{printer.printerName},{printer.printerLatitude},{printer.printerLongitude},{printer.printerIPAddress},{printer.printerID}\n")
 
 # Saving data and sending to API.
-@app.route('/api/get_printer_list', methods=['GET'])
 def get_printer_list():
     printer_data = [
-        {"id": printer.printerID, "name": printer.printerName, "distance": 0, "time": 0}
+        {
+            "id": printer.printerID,
+            "name": printer.printerName,
+            "distance": 0,  # Placeholder for distance
+            "time": 0,      # Placeholder for time
+        }
         for printer in printer_list
     ]
     return jsonify({"printers": printer_data})
