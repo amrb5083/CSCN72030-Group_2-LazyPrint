@@ -23,6 +23,7 @@ app = Flask(__name__)
 ##             file.write(f"{printer.printerName},{printer.printerLatitude},{printer.printerLongitude},{printer.printerIPAddress},{printer.printerID}\n")
 
 # Saving data and sending to API.
+@app.route('/api/get_printer_list', methods=['GET'])
 def get_printer_list():
     printer_data = [
         {
@@ -33,8 +34,8 @@ def get_printer_list():
         }
         for printer in printer_list
     ]
-    return jsonify({"printers": printer_data})
-
+    response_data = {"printers": printer_data}
+    return jsonify(response_data)
 
 # Run the app if this is the main module
 if __name__ == '__main__':
