@@ -40,8 +40,8 @@ const App = () => {
   return (
     <div>
       {!loggedInUser && <Login onLogin={handleLogin} />}
-      {!selectedPrintJob && <PrintJobComponent onSelectPrintJob={handleSelectPrintJob} />}
-      {selectedPrintJob && !selectedPrinter && (
+      {loggedInUser && !selectedPrintJob && <PrintJobComponent onSelectPrintJob={handleSelectPrintJob} />}
+      {loggedInUser && selectedPrintJob && !selectedPrinter && (
         <PrinterListComponent printers={printersData} onSelectPrinter={handleSelectPrinter} />
       )}
       {loggedInUser && selectedPrintJob && selectedPrinter && (

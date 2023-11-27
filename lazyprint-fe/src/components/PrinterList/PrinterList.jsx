@@ -1,3 +1,4 @@
+// PrinterListComponent.jsx
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -12,39 +13,16 @@ const PrinterListComponent = () => {
   const [sortOption, setSortOption] = useState('');
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Make a request to your Flask API endpoint
-        const response = await fetch('/api/get_printer_list');
+    // Fetch printers from the server or any data source
+    // For simplicity, a static list is used here
+    const mockPrinters = [
+      { id: 1, name: 'Printer A', distance: 5, time: 10 },
+      { id: 2, name: 'Printer B', distance: 8, time: 15 },
+      // Add more printer data as needed
+    ];
 
-        // Check if the response is successful (status code 200)
-        if (response.ok) {
-          try {
-            // Attempt to parse the response as JSON
-            const data = await response.json();
-            console.log('Fetched data:', data);
-
-            const printerData = data.printers || [];
-
-            // Update the state with the received printer data
-            setPrinters(printerData);
-          } catch (jsonError) {
-            // Handle JSON parsing error
-            console.error('Error parsing JSON:', jsonError);
-          }
-        } else {
-          // Handle error cases if needed
-          console.error('Failed to fetch printer data:', response.statusText);
-        }
-      } catch (error) {
-        // Handle fetch errors
-        console.error('Error fetching printer data:', error);
-      }
-    };
-
-    // Call the fetchData function to get data from the Flask API
-    fetchData();
-  }, []);  // Empty dependency array to run the effect only once
+    setPrinters(mockPrinters);
+  }, []);
 
   const handleSort = (option) => {
     // Perform sorting logic based on the selected option
@@ -91,6 +69,18 @@ const PrinterListComponent = () => {
       </ul>
     </div>
   );
+};
+
+// Add prop validation
+PrinterListComponent.propTypes = {
+  printers: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      distance: PropTypes.number.isRequired,
+      time: PropTypes.number.isRequired,
+    })
+  ).isRequired,
 };
 
 export default PrinterListComponent;
