@@ -26,16 +26,10 @@ app = Flask(__name__)
 @app.route('/api/get_printer_list', methods=['GET'])
 def get_printer_list():
     printer_data = [
-        {
-            "id": printer.printerID,
-            "name": printer.printerName,
-            "distance": 0,  # Placeholder for distance
-            "time": 0,      # Placeholder for time
-        }
+        {"id": printer.printerID, "name": printer.printerName, "distance": 0, "time": 0}
         for printer in printer_list
     ]
-    response_data = {"printers": printer_data}
-    return jsonify(response_data)
+    return jsonify({"printers": printer_data})
 
 # Run the app if this is the main module
 if __name__ == '__main__':
