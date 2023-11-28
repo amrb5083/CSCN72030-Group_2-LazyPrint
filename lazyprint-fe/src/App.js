@@ -44,6 +44,7 @@ function App() {
             onBookPrintJob={() => setCurrentPage('bookPrintJob')}
             onFindPrinters={() => setCurrentPage('findPrinters')}
             onSettings={() => setCurrentPage('settings')}
+            onLogout={handleLogout}
           />
         );
       case 'bookPrintJob':

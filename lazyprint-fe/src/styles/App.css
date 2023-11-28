@@ -69,22 +69,27 @@ body {
 }
 
 /* Button Styles */
-button {
-  background-color: #4CAF50; /* Green button color */
+/* Login Button Styles */
+.login-button {
+  background-color: #007bff; /* Blue button color */
   color: white;
   border: none;
-  padding: 12px 24px; /* Increased padding for better button appearance */
-  margin: 8px;
-  border-radius: 8px; /* Rounded corners */
+  padding: 14px 28px;
+  margin-top: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 1.1em;
-  transition: background-color 0.3s ease; /* Smooth transition on hover */
+  font-size: 1.2em;
+  transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+  outline: none; /* Remove default focus border */
 }
 
-button:hover {
-  background-color: #45a049; /* Darker green on hover */
+.login-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
 }
 
+.login-button:active {
+  transform: scale(0.95); /* Add a slight scaling effect when the button is clicked */
+}
 /* Input and Select Styles */
 input, select {
   padding: 12px;

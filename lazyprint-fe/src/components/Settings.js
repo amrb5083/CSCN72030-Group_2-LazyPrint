@@ -26,7 +26,10 @@ function Settings({ onLogout }) {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="New Password"
         />
-        <button type="submit">Update</button>
+        <div>
+          <button type="submit">Update</button>
+        </div>
+        
       </form>
       <button onClick={onLogout}>Logout</button>
     </div>
