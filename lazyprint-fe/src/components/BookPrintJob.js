@@ -4,7 +4,7 @@ import '../styles/BookPrintJob.css';
 
 function BookPrintJob({ onProceedToPayment, onGoBackToHome }) {
   const [printerCode, setPrinterCode] = useState('');
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState('');
   const [pages, setPages] = useState('');
 
   const handleSubmit = (event) => {
@@ -14,7 +14,15 @@ function BookPrintJob({ onProceedToPayment, onGoBackToHome }) {
   };
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+    const selectedFile = event.target.files[0];
+    const reader = new FileReader();
+  
+    reader.onload = (e) => {
+      const content = e.target.result;
+      setFile(content);
+    };
+  
+    reader.readAsText(selectedFile);
   };
 
   return (

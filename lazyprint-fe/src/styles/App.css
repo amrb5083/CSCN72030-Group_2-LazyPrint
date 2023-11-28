@@ -1,4 +1,4 @@
-/* App.css */
+/* App.css 
 .App {
   font-family: 'Arial', sans-serif;
   background-color: white;
@@ -47,4 +47,76 @@ li {
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 5px;
+}
+*/
+
+
+
+
+/* App.css */
+
+/* Body Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f8f8;
+  color: #333;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Button Styles */
+button {
+  background-color: #4CAF50; /* Green button color */
+  color: white;
+  border: none;
+  padding: 12px 24px; /* Increased padding for better button appearance */
+  margin: 8px;
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+/* Input and Select Styles */
+input, select {
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #aaa; /* Light gray border */
+  border-radius: 8px;
+  width: calc(100% - 26px);
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+/* Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff; /* White background for the form */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+}
+
+/* List Styles */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background-color: #fff; /* White background for list items */
+  margin-bottom: 10px;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Box shadow for list item depth */
 }
