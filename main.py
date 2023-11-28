@@ -41,12 +41,16 @@ def main():
         print(f"Document Content: {job.document.content}, Printer ID: {job.printer.id}")
 
     # Distance-Based Scheduling
+
+    # Assuming user_location is the user's location
+    user_location = Location(38.9072, -77.0370)
+
     distance_scheduler = DistanceBasedJobScheduling()
     distance_scheduler.schedule_job(job1)
     distance_scheduler.schedule_job(job2)
 
     print("\nDistance-Based Scheduling:")
-    sorted_distance_jobs = distance_scheduler.get_sorted_print_jobs()
+    sorted_distance_jobs = distance_scheduler.get_sorted_print_jobs(user_location)
     for job in sorted_distance_jobs:
         print(f"Document Content: {job.document.content}, Printer ID: {job.printer.id}")
 
