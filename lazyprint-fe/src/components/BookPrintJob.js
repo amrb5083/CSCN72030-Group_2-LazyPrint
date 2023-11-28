@@ -6,20 +6,26 @@ function BookPrintJob({ onProceedToPayment, onGoBackToHome }) {
   const [printerCode, setPrinterCode] = useState('');
   const [file, setFile] = useState('');
   const [pages, setPages] = useState('');
+  const [fileName, setFileName] = useState('');
+
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // Mock API call can be placed here
-    onProceedToPayment({ printerCode, file, pages });
+    onProceedToPayment({ printerCode, file, pages, fileName });
   };
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     const reader = new FileReader();
   
+    const fileName = selectedFile.name;
+  
     reader.onload = (e) => {
       const content = e.target.result;
       setFile(content);
+      setFileName(fileName);
     };
   
     reader.readAsText(selectedFile);
