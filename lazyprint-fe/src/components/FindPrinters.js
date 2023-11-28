@@ -1,16 +1,23 @@
 // src/components/FindPrinters.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/FindPrinters.css';
 
 function FindPrinters({ onBackToPrintJob, onGoBackToHome }) {
   const [postalCode, setPostalCode] = useState('');
-  const mockPrinters = [
-    { name: 'Printer1', brand: 'HP', location: 'Location1', price: '$0.10/pg', code: 'QNDA' },
-    // Add more mock printers here
-  ];
+  const [printers, setPrinters] = useState([]);
+
+  useEffect(() => {
+    // Fetch data from the Flask API endpoint when the component mounts
+    fetch('http://127.0.0.1:5000/api/printers')
+      .then(response => response.json())
+      .then(printers => setPrinters(printers))
+      .catch(error => console.error('Error fetching printer data:', error));
+  }, []);
 
   const handleSearch = () => {
-    // Mock API call can be placed here
+    // You can filter printers based on the postal code if needed
+    // For now, just log the selected postal code
+    console.log(`Searching for printers near postal code: ${postalCode}`);
   };
 
   return (
@@ -24,9 +31,9 @@ function FindPrinters({ onBackToPrintJob, onGoBackToHome }) {
       />
       <button onClick={handleSearch}>Search</button>
       <ul>
-        {mockPrinters.map((printer, index) => (
-          <li key={index}>
-            {`${printer.name} - ${printer.brand} - ${printer.location} - ${printer.price} - ${printer.code}`}
+        {printers.map((printer) => (
+          <li key={printer.printerID}>
+            {`${printer.printerName} - ${printer.printerBrand} - ${printer.printerPrice} - ${printer.printerCode}`}
           </li>
         ))}
       </ul>
