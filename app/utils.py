@@ -23,7 +23,8 @@ class printer:
     def __init__(self, efficiency, queue, longitude, latitude, id, name, brand, price, code):
         self.efficiency = int(efficiency)
         self.queue = int(queue)
-        self.location = array('f', [float(longitude), float(latitude)])
+        self.longitude = float(longitude)
+        self.latitude = float(latitude)
         self.id = int(id)
         self.name = name
         self.brand = brand
@@ -50,8 +51,9 @@ printers_array = [
 
 
 def distance_based_sort(user_location, printers):
-    printers.sort(key=lambda printer: calculate_distance(user_location, printer.location))
+    printers.sort(key=lambda printer: calculate_distance(user_location, (printer.longitude, printer.latitude)))
     return printers
+
 
 def queue_based_sort(printers):
     printers.sort(key=lambda printer: printer.queue)
@@ -66,5 +68,5 @@ def time_based_sort(printers):
     return printers
 
 def distance_time_optimized_sort(user_location, printers):
-    printers.sort(key=lambda printer: calculate_distance(user_location, printer.location) + printer.efficiency * printer.queue)
+    printers.sort(key=lambda printer: calculate_distance(user_location, (printer.longitude, printer.latitude)) + printer.efficiency * printer.queue)
     return printers

@@ -7,7 +7,7 @@ import pandas as pd
 # Load postal code data
 postal_code_data = pd.read_excel('data/postal_codes.xlsx')
 
-@app.route('/sort_printers', methods=['POST'])
+@app.route('/api/sort_printers', methods=['POST'])
 def sort_printers():
     user_postal_code = request.json['postal_code']
     user_location = get_location_from_postal_code(user_postal_code, postal_code_data)
@@ -42,9 +42,23 @@ def update_queue():
             # Update the queue (you can modify this logic based on your requirements)
             selected_printer.queue += 1
 
+            # Print the updated queue to the console
+            print(f"Updated queue for {selected_printer.name}: {selected_printer.queue}")
+
             return jsonify({'success': True, 'message': 'Printer queue updated successfully'})
         else:
             return jsonify({'success': False, 'error': 'Printer not found'}), 404
 
     except Exception as e:
         return jsonify({'success': False, 'error': f'Error updating printer queue: {str(e)}'}), 500
+
+    
+
+@app.route('/api/printers', methods=['GET'])
+def get_printers():
+    try:
+        # Assuming printers_array is the list of printers you want to send
+        printers_data = [printer.__dict__ for printer in printers_array]
+        return jsonify({'printers': printers_data})
+    except Exception as e:
+        return jsonify({'error': f'Error fetching printers: {str(e)}'}), 500
