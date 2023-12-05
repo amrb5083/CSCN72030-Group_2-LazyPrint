@@ -5,43 +5,33 @@ import '../styles/FindPrinters.css';
 function FindPrinters({ onNavigate }) {
   const [postalCode, setPostalCode] = useState('');
   const [printers, setPrinters] = useState([]);
-  const [sortingOption, setSortingOption] = useState(''); // State to track sorting option
+  const [sortingOption, setSortingOption] = useState('');
 
+  // Fetch default printer data
   useEffect(() => {
-    // Fetch data from the Flask API endpoint when the component mounts
-    fetch('http://127.0.0.1:5000/api/printers')
+    fetch('http://127.0.0.1:3003/api/printers')
       .then(response => response.json())
       .then(printers => setPrinters(printers))
       .catch(error => console.error('Error fetching printer data:', error));
   }, []);
-
-  // Function to handle sorting based on the selected option
+  
+  // Fetch sorted printer data based on the selected sorting option
   const handleSort = () => {
-    let sortedPrinters = [...printers];
-
-    switch (sortingOption) {
-      case 'time-based':
-        // Implement time-based sorting logic here
-        sortedPrinters.sort((a, b) => a.timeBasedValue - b.timeBasedValue);
-        break;
-      case 'distance-based':
-        // Implement distance-based sorting logic here
-        sortedPrinters.sort((a, b) => a.distanceBasedValue - b.distanceBasedValue);
-        break;
-      case 'optimal':
-        // Implement optimal sorting logic here
-        // You may consider a combination of time and distance
-        break;
-      case 'pending-queues':
-        // Implement sorting by pending queues logic here
-        sortedPrinters.sort((a, b) => a.pendingQueues - b.pendingQueues);
-        break;
-      default:
-        // No sorting option selected
+    if (sortingOption) {
+      fetch('http://127.0.0.1:3003/api/sort_printers', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          postal_code: postalCode,
+          sorting_method: sortingOption,
+        }),
+      })
+        .then(response => response.json())
+        .then(sortedPrinters => setPrinters(sortedPrinters.sorted_printers))
+        .catch(error => console.error('Error fetching sorted printer data:', error));
     }
-
-    // Update the printer list with the sorted data
-    setPrinters(sortedPrinters);
   };
 
   return (
@@ -53,26 +43,32 @@ function FindPrinters({ onNavigate }) {
         onChange={(e) => setPostalCode(e.target.value)}
         placeholder="Postal Code"
       />
-      {/* Dropdown menu for sorting options */}
       <select onChange={(e) => setSortingOption(e.target.value)}>
         <option value="">Sort by</option>
-        <option value="time-based">Time-based</option>
-        <option value="distance-based">Distance-based</option>
-        <option value="optimal">Most Optimal</option>
-        <option value="pending-queues">Pending Queues</option>
+        <option value="distance">Distance-based</option>
+        <option value="queue">Pending Queues</option>
+        <option value="alphabetical">Alphabetical</option>
+        <option value="time">Time-based</option>
+        <option value="distance_time">Distance-Time Optimized</option>
       </select>
       <button onClick={handleSort}>Sort</button>
       <ul>
-        {printers.map((printer) => (
-          <li key={printer.printerID}>
-            {`${printer.printerName} - ${printer.printerBrand} - ${printer.printerPrice} - ${printer.printerCode}`}
-          </li>
-        ))}
-      </ul>
+  {printers && printers.length > 0 ? (
+    printers.map((printer) => (
+      <li key={printer.id}>
+        {`${printer.name} - ${printer.brand} - ${printer.price} - ${printer.code}`}
+      </li>
+    ))
+  ) : (
+    <li>No printers available.</li>
+  )}
+</ul>
+
       <button onClick={() => onNavigate('bookPrintJob')}>Book a Print Job</button>
       <button onClick={() => onNavigate('home')}>Back to Home</button>
     </div>
   );
 }
+
 
 export default FindPrinters;

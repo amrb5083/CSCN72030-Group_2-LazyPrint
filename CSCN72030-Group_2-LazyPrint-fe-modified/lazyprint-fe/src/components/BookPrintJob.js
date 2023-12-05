@@ -12,11 +12,33 @@ function BookPrintJob({ onNavigate, setJobDetails }) {
 
   const validPrinterCodes = ["ABC123", "DEF456", "GHI789", "JKL012", "MNO345", "PQR678", "STU901", "VWX234", "YZA567", "BCD890"];
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (validPrinterCodes.includes(printerCode) && isFileTypeSupported) {
       setJobDetails({ printerCode, file, pages, fileName });
-      onNavigate('payment');
+      try {
+        // Make a fetch request to update the printer's queue
+        const response = await fetch('http://127.0.0.1:3003/api/update-queue', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            printerCode,
+          }),
+        });
+  
+        // Check if the update was successful
+        if (response.ok) {
+          // Continue with the payment process
+          onNavigate('payment');
+
+        } else {
+          console.error('Failed to update printer queue');
+        }
+      } catch (error) {
+        console.error('Error updating printer queue:', error);
+      }
     } else {
       setIsPrinterCodeValid(false);
     }
