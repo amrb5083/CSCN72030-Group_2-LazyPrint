@@ -15,7 +15,7 @@ function App() {
   const { isAuthenticated, isLoading, loginWithRedirect, logout } = useAuth0();
   const [currentPage, setCurrentPage] = useState('login');
   const [user, setUser] = useState(null);
-  const [jobDetails, setJobDetails] = useState({});
+  const [jobDetails, setJobDetailsState] = useState({}); // Renamed to avoid name clash
 
   useEffect(() => {
     if (isLoading) {
@@ -35,12 +35,16 @@ function App() {
     setCurrentPage(page);
   };
 
+  const setJobDetails = (details) => {
+    setJobDetailsState(details); // Update job details state
+  };
+
   const renderComponent = () => {
     switch (currentPage) {
       case 'home':
         return <HomePage onNavigate={navigate} />;
-              case 'bookPrintJob':
-        return <BookPrintJob onNavigate={navigate} jobDetails={jobDetails} />;
+      case 'bookPrintJob':
+        return <BookPrintJob onNavigate={navigate} setJobDetails={setJobDetails} />;
       case 'findPrinters':
         return <FindPrinters onNavigate={navigate} />;
       case 'payment':

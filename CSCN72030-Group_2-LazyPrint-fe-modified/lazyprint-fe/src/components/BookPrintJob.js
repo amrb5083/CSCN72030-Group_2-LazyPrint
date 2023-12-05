@@ -1,46 +1,56 @@
-// src/components/BookPrintJob.js
 import React, { useState } from 'react';
 import '../styles/BookPrintJob.css';
 
-function BookPrintJob({ onProceedToPayment, onGoBackToHome }) {
-  const [printerCode, setPrinterCode] = useState("");
+function BookPrintJob({ onNavigate, setJobDetails }) {
+  const [printerCode, setPrinterCode] = useState('');
   const [file, setFile] = useState('');
-  const [pages, setPages] = useState(false);
+  const [pages, setPages] = useState('');
   const [fileName, setFileName] = useState('');
-  const [isFileTypeSupported, setIsFileTypeSupported] = useState(false);
+  const [isFileTypeSupported, setIsFileTypeSupported] = useState(true);
+  const [isPrinterCodeValid, setIsPrinterCodeValid] = useState(true);
+  const [fileUploadAttempted, setFileUploadAttempted] = useState(false);
 
+  const validPrinterCodes = ["ABC123", "DEF456", "GHI789", "JKL012", "MNO345", "PQR678", "STU901", "VWX234", "YZA567", "BCD890"];
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onProceedToPayment({ printerCode, file, pages, fileName });
+    if (validPrinterCodes.includes(printerCode) && isFileTypeSupported) {
+      setJobDetails({ printerCode, file, pages, fileName });
+      onNavigate('payment');
+    } else {
+      setIsPrinterCodeValid(false);
+    }
   };
 
   const handleFileChange = (event) => {
+    setFileUploadAttempted(true); // User has attempted to upload a file
     const selectedFile = event.target.files[0];
-    const reader = new FileReader();
-  
+    if (!selectedFile) {
+      return; // Exit if no file is selected
+    }
+
     const allowedExtensions = ["pptx", "txt", "docx", "pdf", "rtf"];
-    const fileExtension = selectedFile.name.split(".").pop();
-  
+    const fileExtension = selectedFile.name.split('.').pop().toLowerCase();
+
     if (allowedExtensions.includes(fileExtension)) {
-      const fileName = selectedFile.name;
-  
+      const reader = new FileReader();
       reader.onload = (e) => {
         const content = e.target.result;
         setFile(content);
-        setFileName(fileName);
+        setFileName(selectedFile.name);
         setIsFileTypeSupported(true);
       };
-  
       reader.readAsText(selectedFile);
     } else {
-      // Handle the case where an invalid file is selected
-      console.log("This file type is not supported. Files supported include PowerPoint, Word documents, PDFs and text document files.");
-  
-      // Clear the selected file
+      console.log("Unsupported file type. Allowed types: pptx, txt, docx, pdf, rtf.");
       event.target.value = null;
       setIsFileTypeSupported(false);
     }
+  };
+
+  const handlePrinterCodeChange = (event) => {
+    setPrinterCode(event.target.value);
+    setIsPrinterCodeValid(true); // Reset validation flag on user input
   };
 
   return (
@@ -50,28 +60,28 @@ function BookPrintJob({ onProceedToPayment, onGoBackToHome }) {
         <input
           type="text"
           value={printerCode}
-          onChange={(e) => setPrinterCode(e.target.value)}
-          // "required" implies textbox cannot be left blank.
-          required
+          onChange={handlePrinterCodeChange}
           placeholder="Printer Code"
+          className={!isPrinterCodeValid ? 'invalid' : ''}
         />
+        {!isPrinterCodeValid && <p className="error-message">Invalid printer code</p>}
+
         <input
           type="file"
           onChange={handleFileChange}
         />
+        {fileUploadAttempted && !isFileTypeSupported && <p className="error-message">Unsupported file type</p>}
+
         <input
           type="number"
           value={pages}
           onChange={(e) => setPages(e.target.value)}
-          // "required" implies textbox cannot be left blank.
-          required
           placeholder="Number of Pages"
         />
-       <button type="submit" disabled={!isFileTypeSupported}>
-          Proceed to Payment
-        </button>
+
+        <button type="submit" disabled={!isFileTypeSupported || !isPrinterCodeValid}>Proceed to Payment</button>
       </form>
-      <button onClick={() => onGoBackToHome()}>Back to Home</button>
+      <button onClick={() => onNavigate('home')}>Back to Home</button>
     </div>
   );
 }

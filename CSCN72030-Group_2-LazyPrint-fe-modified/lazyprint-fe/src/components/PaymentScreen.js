@@ -1,49 +1,22 @@
-// src/components/PaymentScreen.js
-import BookPrintJob from './BookPrintJob';
 import React from 'react';
 
-function PaymentScreen({ jobDetails, onPay }) {
-
-  const handlePay = () => {
-    const apiUrl = 'http://127.0.0.1:5000/api/pay-for-job';
-  
-    fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        printerCode: jobDetails.printerCode,
-        pages: jobDetails.pages,
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Payment processed:', data);
-        // Call onPay after processing payment
-        onPay();
-      })
-      .catch(error => {
-        console.error('Error processing payment:', error);
-      });
-  };
-  
-
-  const handlePaymentAndOnPay = () => {
-    // Call handlePay to process payment
-    handlePay();
-    // Call onPay after processing payment
-    onPay();
-  };
+function PaymentScreen({ jobDetails, onNavigate }) {
+  const { printerCode, fileName, pages } = jobDetails;
+  const ratePerPage = 0.03; // Rate per page
+  const totalPrice = pages * ratePerPage; // Total price calculation
 
   return (
-    <div className="payment-screen">
-      <h2>Invoice</h2>
-      <p>Printer Code: {jobDetails.printerCode}</p>
-      <p>File: {jobDetails.fileName}</p>
-      <p>Pages: {jobDetails.pages}</p>
-      {/* Display cost and other details */}
-      <button onClick={handlePaymentAndOnPay}>Pay for Job</button>
+    <div className="invoice">
+      <h1>Invoice</h1>
+      <h2>Booking Confirmed</h2>
+      <p><strong>Printer Code:</strong> {printerCode}</p>
+      <p><strong>File:</strong> {fileName}</p>
+      <p><strong>Pages:</strong> {pages}</p>
+      <p><strong>Rate:</strong> ${ratePerPage}/pg</p>
+      <p><strong>Total Price:</strong> ${totalPrice.toFixed(2)}</p> {/* Display total price */}
+
+      {/* Button to navigate back to home */}
+      <button onClick={() => onNavigate('home')}>Back to Home</button>
     </div>
   );
 }
