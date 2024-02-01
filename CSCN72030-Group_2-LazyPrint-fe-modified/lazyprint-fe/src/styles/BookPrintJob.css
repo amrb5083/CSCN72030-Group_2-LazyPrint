@@ -1,0 +1,58 @@
+/* BookPrintJob.css 
+.book-print-job {
+    max-width: 400px;
+    margin: auto;
+    background-color: #e3f2fd;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+*/
+
+
+/* Body Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f8f8;
+  color: #333;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Book Print Job Styles */
+.book-print-job {
+  max-width: 400px;
+  margin: auto;
+  background-color: #fff; /* White background */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+/* Button Styles */
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  margin: 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1.2em;
+  transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+  outline: none; /* Remove default focus border */
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button:active {
+  transform: scale(0.95); /* Add a slight scaling effect when the button is clicked */
+}
